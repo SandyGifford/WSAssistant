@@ -1,3 +1,3 @@
 export { WSHelperClient } from "./WSHelperClient";
-export { WSHelperServer } from "./WSHelperServer";
+export { WSHelperServer, WSSHelperServer } from "./WSHelperServer";
 export { WSLike, WSEventType } from "./WSHelper";
