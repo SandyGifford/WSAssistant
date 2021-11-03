@@ -1,7 +1,7 @@
 export interface WSLike {
 	send(data: string): void;
-	addEventListener(type: string, listener: (e: {data: string}) => void);
-	removeEventListener(type: string, listener: (e: {data: string}) => void);
+	addEventListener(type: string, listener: (e: {data: string | Buffer}) => void);
+	removeEventListener(type: string, listener: (e: {data: string | Buffer}) => void);
 }
 
 type SelectProps<Base, Condition> = {
