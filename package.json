@@ -11,9 +11,11 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/node": "^16.11.6",
+		"@types/ws": "^8.2.0",
 		"typescript": "^4.4.4"
 	},
 	"dependencies": {
-		"@types/node": "^16.11.6"
+		"ws": "^8.2.3"
 	}
 }

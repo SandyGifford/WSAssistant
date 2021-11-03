@@ -1,13 +1,17 @@
-import { WSHelper } from "./WSHelper";
-
-export type WSClientEventType = "open" | "close" | "error";
+import { WSEventType, WSHelper } from "./WSHelper";
 
 export class WSHelperClient<M> extends WSHelper<M> {
-	protected ws: WebSocket | null;
+	private ws: WebSocket | null;
 	private listeners: Record<string, ((e: any) => void)[]> = {};
 
 	constructor(private url: string, private retryMS = 1000) {
-		super(new WebSocket(url));
+		super();
+		this.ws = new WebSocket(url);
+	}
+
+	public send = <T extends keyof M>(type: T, data?: M[T]) => {
+		if (!this.ws) return;
+		this.ws.send(JSON.stringify({ type, data }));
 	}
 
 	public open = (): void => {
@@ -40,18 +44,18 @@ export class WSHelperClient<M> extends WSHelper<M> {
 		this.ws = null;
 	};
 
-	public addEventListener<T extends WSClientEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void {
+	public addEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
 		if (!this.listeners[type]) this.listeners[type] = [];
 		const listeners = this.listeners[type];
 		if (listeners.indexOf(callback) === -1) listeners.push(callback);
-		super.addEventListener(type, callback);
+		this.ws?.addEventListener(type, callback);
 	}
 
-	public removeEventListener<T extends WSClientEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void {
+	public removeEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
 		if (!this.listeners[type]) this.listeners[type] = [];
 		const listeners = this.listeners[type];
 		const index = listeners.indexOf(callback);
 		if (index !== -1) listeners.splice(index, 1);
-		super.removeEventListener(type, callback);
+		this.ws?.removeEventListener(type, callback);
 	}
 }
