@@ -19,26 +19,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         constructor(ws) {
             super();
             this.send = (type, data) => {
-                if (!this.ws)
+                if (!this._ws)
                     return;
-                this.ws.send(JSON.stringify({ type, data }));
+                this._ws.send(JSON.stringify({ type, data }));
             };
             this.close = () => {
-                if (!this.ws)
+                if (!this._ws)
                     return;
-                this.ws.close();
-                this.ws = null;
+                this._ws.close();
+                this._ws = null;
             };
             this.addEventListener = (type, callback) => {
                 var _a;
-                ((_a = this.ws) === null || _a === void 0 ? void 0 : _a.addEventListener)(type, callback);
+                ((_a = this._ws) === null || _a === void 0 ? void 0 : _a.addEventListener)(type, callback);
             };
             this.removeEventListener = (type, callback) => {
                 var _a;
-                ((_a = this.ws) === null || _a === void 0 ? void 0 : _a.removeEventListener)(type, callback);
+                ((_a = this._ws) === null || _a === void 0 ? void 0 : _a.removeEventListener)(type, callback);
             };
-            this.ws = ws;
+            this._ws = ws;
         }
+        get ws() { return this._ws; }
+        ;
     }
     exports.WSHelperServer = WSHelperServer;
     class WSSHelperServer extends WSHelper_1.WSHelper {
@@ -49,7 +51,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 this.clients.forEach(client => client.send(type, data));
             };
             this.close = () => {
-                this.wss.close();
+                this._wss.close();
             };
             this.addEventListener = (type, callback) => {
                 this.clients.forEach(client => client.addEventListener(type, e => callback(client, e)));
@@ -57,8 +59,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             this.removeEventListener = (type, callback) => {
                 this.clients.forEach(client => client.removeEventListener(type, e => callback(client, e)));
             };
-            this.wss = new ws_1.default.Server({ port });
-            this.wss.on("connection", ws => {
+            this._wss = new ws_1.default.Server({ port });
+            this._wss.on("connection", ws => {
                 const client = new WSHelperServer(ws);
                 client.addEventListener("close", () => {
                     const index = this.clients.indexOf(client);
@@ -69,6 +71,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 this.clients.push(client);
             });
         }
+        get wss() { return this._wss; }
+        ;
     }
     exports.WSSHelperServer = WSSHelperServer;
 });
