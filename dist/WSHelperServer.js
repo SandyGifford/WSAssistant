@@ -52,14 +52,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 this.wss.close();
             };
             this.addEventListener = (type, callback) => {
-                this.clients.forEach(client => client.addEventListener(type, callback));
+                this.clients.forEach(client => client.addEventListener(type, e => callback(client, e)));
             };
             this.removeEventListener = (type, callback) => {
-                this.clients.forEach(client => client.removeEventListener(type, callback));
+                this.clients.forEach(client => client.removeEventListener(type, e => callback(client, e)));
             };
             this.wss = new ws_1.default.Server({ port });
-            this.on = this.wss.on;
-            this.off = this.wss.off;
             this.wss.on("connection", ws => {
                 const client = new WSHelperServer(ws);
                 client.addEventListener("close", () => {

@@ -36,8 +36,6 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 	constructor(port: number) {
 		super();
 		this.wss = new NodeWebSocket.Server({ port });
-		this.on = this.wss.on;
-		this.off = this.wss.off;
 
 		this.wss.on("connection", ws => {
 			const client = new WSHelperServer<M>(ws);
@@ -50,9 +48,6 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 		});
 	}
 
-	public on: NodeWebSocket.Server["on"];
-	public off: NodeWebSocket.Server["off"];
-
 	public send = <T extends keyof M>(type: T, data?: M[T]) => {
 		this.clients.forEach(client => client.send(type, data));
 	}
@@ -61,11 +56,11 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 		this.wss.close();
 	};
 
-	public addEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
-		this.clients.forEach(client => client.addEventListener(type, callback));
+	public addEventListener = <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void): void => {
+		this.clients.forEach(client => client.addEventListener(type, e => callback(client, e)));
 	}
 
-	public removeEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
-		this.clients.forEach(client => client.removeEventListener(type, callback));
+	public removeEventListener = <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void): void => {
+		this.clients.forEach(client => client.removeEventListener(type, e => callback(client, e)));
 	}
 }
