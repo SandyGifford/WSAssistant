@@ -18,4 +18,7 @@ export declare class WSSHelperServer<M> extends WSHelper<M> {
     close: () => void;
     addEventListener: <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void) => void;
     removeEventListener: <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void) => void;
+    onConnected: (callback: (client: WSHelperServer<M>, ip: string) => void) => void;
+    onDisconnected: (callback: () => void) => void;
+    private forEachClient;
 }

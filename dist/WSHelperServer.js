@@ -31,11 +31,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             };
             this.addEventListener = (type, callback) => {
                 var _a;
-                ((_a = this._ws) === null || _a === void 0 ? void 0 : _a.addEventListener)(type, callback);
+                (_a = this._ws) === null || _a === void 0 ? void 0 : _a.addEventListener(type, e => callback(e));
             };
             this.removeEventListener = (type, callback) => {
                 var _a;
-                ((_a = this._ws) === null || _a === void 0 ? void 0 : _a.removeEventListener)(type, callback);
+                (_a = this._ws) === null || _a === void 0 ? void 0 : _a.removeEventListener(type, e => callback(e));
             };
             this._ws = ws;
         }
@@ -46,33 +46,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     class WSSHelperServer extends WSHelper_1.WSHelper {
         constructor(port) {
             super();
-            this.clients = [];
+            this.clients = {};
             this.send = (type, data) => {
-                this.clients.forEach(client => client.send(type, data));
+                this.forEachClient(client => client.send(type, data));
             };
             this.close = () => {
                 this._wss.close();
             };
             this.addEventListener = (type, callback) => {
-                this.clients.forEach(client => client.addEventListener(type, e => callback(client, e)));
+                this.forEachClient(client => client.addEventListener(type, e => callback(client, e)));
             };
             this.removeEventListener = (type, callback) => {
-                this.clients.forEach(client => client.removeEventListener(type, e => callback(client, e)));
+                this.forEachClient(client => client.removeEventListener(type, e => callback(client, e)));
+            };
+            this.onConnected = (callback) => {
+                this._wss.on("connection", (ws, req) => callback(this.clients[ws.id], req.socket.remoteAddress));
+            };
+            this.onDisconnected = (callback) => {
+                this._wss.on("close", () => callback());
             };
             this._wss = new ws_1.default.Server({ port });
-            this._wss.on("connection", ws => {
+            this._wss.on("connection", (ws, req) => {
+                const id = ws.id = req.headers["sec-websocket-key"];
                 const client = new WSHelperServer(ws);
-                client.addEventListener("close", () => {
-                    const index = this.clients.indexOf(client);
-                    if (index === -1)
-                        return;
-                    this.clients.splice(index, 1);
-                });
-                this.clients.push(client);
+                this.clients[id] = client;
+                client.addEventListener("close", () => delete this.clients[id]);
             });
         }
         get wss() { return this._wss; }
         ;
+        forEachClient(callback) {
+            Object.keys(this.clients).forEach(id => callback(this.clients[id], id));
+        }
     }
     exports.WSSHelperServer = WSSHelperServer;
 });
