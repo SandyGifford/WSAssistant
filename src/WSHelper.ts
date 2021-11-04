@@ -1,3 +1,5 @@
+import { SelectSubType, ExcludeSubType } from "./internalTypings";
+
 export interface WSLike {
 	send(data: string): void;
 	addEventListener(type: string, listener: (e: {data: string | Buffer | ArrayBuffer | Buffer[]}) => void);
@@ -5,22 +7,6 @@ export interface WSLike {
 }
 
 export type WSEventType = "message" | "open" | "close" | "error";
-
-type SelectProps<Base, Condition> = {
-	[Key in keyof Base]: Base[Key] extends Condition ? Key : never
-};
-
-type SelectNames<Base, Condition> = SelectProps<Base, Condition>[keyof Base];
-
-type SelectSubType<Base, Condition> = Pick<Base, SelectNames<Base, Condition>>;
-
-type ExcludeProps<Base, Condition> = {
-	[Key in keyof Base]: Base[Key] extends Condition ? never : Key
-};
-
-type ExcludeNames<Base, Condition> = ExcludeProps<Base, Condition>[keyof Base];
-
-type ExcludeSubType<Base, Condition> = Pick<Base, ExcludeNames<Base, Condition>>;
 
 export abstract class WSHelper<M> {
 	public abstract send<T extends keyof SelectSubType<M, void>>(type: T): void;
