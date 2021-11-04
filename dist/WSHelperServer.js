@@ -47,8 +47,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         constructor(port) {
             super();
             this.clients = {};
-            this.send = (type, data) => {
-                this.forEachClient(client => client.send(type, data));
+            this.ID_KEY = "WSHelperServerId";
+            this.send = () => {
+                throw new Error("send not supported in WSHelperServer, use sendToAll instead");
             };
             this.close = () => {
                 this._wss.close();
@@ -60,14 +61,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 this.forEachClient(client => client.removeEventListener(type, e => callback(client, e)));
             };
             this.onConnected = (callback) => {
-                this._wss.on("connection", (ws, req) => callback(this.clients[ws.id], req.socket.remoteAddress));
+                this._wss.on("connection", (ws, req) => callback(this.clients[this.getWSId(ws)], req.socket.remoteAddress));
             };
             this.onDisconnected = (callback) => {
                 this._wss.on("close", () => callback());
             };
             this._wss = new ws_1.default.Server({ port });
             this._wss.on("connection", (ws, req) => {
-                const id = ws.id = req.headers["sec-websocket-key"];
+                const id = req.headers["sec-websocket-key"];
+                this.setWSId(ws, id);
                 const client = new WSHelperServer(ws);
                 this.clients[id] = client;
                 client.addEventListener("close", () => delete this.clients[id]);
@@ -75,8 +77,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         get wss() { return this._wss; }
         ;
+        sendToAll(type, data) {
+            this.forEachClient(client => client.send(type, data));
+        }
+        sendToAllExcept(type, skip, data) {
+            const skipIds = skip.reduce((map, client) => {
+                map[this.getWSId(client.ws)] = true;
+                return map;
+            }, {});
+            this.forEachClient(client => {
+                if (!skipIds[this.getWSId(client.ws)])
+                    client.send(type, data);
+            });
+        }
         forEachClient(callback) {
             Object.keys(this.clients).forEach(id => callback(this.clients[id], id));
+        }
+        setWSId(ws, id) {
+            ws[this.ID_KEY] = id;
+        }
+        getWSId(ws) {
+            return ws[this.ID_KEY];
         }
     }
     exports.WSSHelperServer = WSSHelperServer;
