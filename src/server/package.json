@@ -1,0 +1,20 @@
+{
+  "name": "ws-helper-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SandyGifford/WSHelper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SandyGifford/WSHelper/issues"
+  },
+  "homepage": "https://github.com/SandyGifford/WSHelper#readme"
+}

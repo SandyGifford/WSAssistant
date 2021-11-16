@@ -17,5 +17,10 @@
 	},
 	"dependencies": {
 		"ws": "^8.2.3"
-	}
+	},
+	"workspaces": [
+		"src/base",
+		"src/client",
+		"src/server"
+	]
 }
