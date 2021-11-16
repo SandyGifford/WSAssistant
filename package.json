@@ -1,6 +1,6 @@
 {
 	"name": "ws-assistant",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "",
 	"scripts": {
 		"clearDist": "npm run clearDist --workspaces",
