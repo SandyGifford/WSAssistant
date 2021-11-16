@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/SandyGifford/WSHelper/issues"
   },
-  "homepage": "https://github.com/SandyGifford/WSHelper#readme"
+  "homepage": "https://github.com/SandyGifford/WSHelper#readme",
+  "peerDependencies": {
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/ws": "^8.2.0"
+  }
 }
