@@ -3,5 +3,10 @@
 		"outDir": "dist",
 	},
 	"extends": "../../tsconfig.json",
-	"files": [ "WSAssistantServer.ts" ]
+	"files": [ "WSAssistantServer.ts" ],
+	"exclude": [ "dist" ],
+	"include": [ "*.ts", "../base/*.ts" ],
+	"references": [
+		{ "path": "../base" },
+	]
 }

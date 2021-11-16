@@ -3,5 +3,7 @@
 		"outDir": "dist",
 	},
 	"extends": "../../tsconfig.json",
+	"exclude": [ "dist" ],
+	"include": [ "*.ts" ],
 	"files": [ "WSAssistant.ts" ]
 }

@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"build": "npm run build --workspaces"
+		"clearDist": "npm run clearDist --workspaces",
+		"build": "npm run clearDist && npm run build --workspaces"
 	},
 	"author": "Sandy Gifford",
 	"repository": {

@@ -2,11 +2,12 @@
   "name": "ws-assistant-base",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/WSAssistant.js",
-  "typings": "dist/WSAssistant.d.ts",
+  "main": "dist/src/base/WSAssistant.js",
+  "typings": "dist/src/base/WSAssistant.d.ts",
   "devDependencies": {},
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+	"clearDist": "rm -rf dist"
   },
   "repository": {
     "type": "git",

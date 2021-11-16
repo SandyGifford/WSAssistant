@@ -16,7 +16,13 @@
 		"allowJs": true,
 		"outDir": "dist",
 		"declaration": true,
+		"composite": true,
+		"rootDir": "./"
 	},
-	"files": [ "src/index.ts" ],
-	"exclude": [ "dist" ]
+	"exclude": [ "**/dist" ],
+	"references": [
+		{ "path": "src/base" },
+		{ "path": "src/server" },
+		{ "path": "src/client" }
+	]
 }

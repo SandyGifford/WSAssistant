@@ -2,11 +2,12 @@
   "name": "ws-assistant-client",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/WSAssistantClient.js",
-  "typings": "dist/WSAssistantClient.d.ts",
+  "main": "dist/src/client/WSAssistantClient.js",
+  "typings": "dist/src/client/WSAssistantClient.d.ts",
   "devDependencies": {},
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+	"clearDist": "rm -rf dist"
   },
   "repository": {
     "type": "git",

@@ -2,10 +2,11 @@
   "name": "ws-assistant-server",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/WSAssistantServer.js",
-  "typings": "dist/WSAssistantServer.d.ts",
+  "main": "dist/src/server/WSAssistantServer.js",
+  "typings": "dist/src/server/WSAssistantServer.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+	"clearDist": "rm -rf dist"
   },
   "repository": {
     "type": "git",
