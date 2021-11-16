@@ -1,5 +1,5 @@
-import { WSEventType, WSHelper } from "../base/WSHelper";
-export declare class WSHelperClient<M> extends WSHelper<M> {
+import { WSEventType, WSAssistant } from "ws-assistant-base";
+export declare class WSAssistantClient<M> extends WSAssistant<M> {
     private url;
     private retryMS;
     private ws;

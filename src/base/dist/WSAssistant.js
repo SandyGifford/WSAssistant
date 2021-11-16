@@ -9,8 +9,8 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.WSHelper = void 0;
-    class WSHelper {
+    exports.WSAssistant = void 0;
+    class WSAssistant {
         addMessageListener(type, listener) {
             this.addEventListener("message", e => {
                 const message = JSON.parse(e.data);
@@ -26,6 +26,6 @@
             });
         }
     }
-    exports.WSHelper = WSHelper;
+    exports.WSAssistant = WSAssistant;
 });
-//# sourceMappingURL=WSHelper.js.map
+//# sourceMappingURL=WSAssistant.js.map

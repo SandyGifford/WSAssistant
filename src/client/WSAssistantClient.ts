@@ -1,6 +1,6 @@
-import { WSEventType, WSHelper } from "ws-helper-base";
+import { WSEventType, WSAssistant } from "ws-assistant-base";
 
-export class WSHelperClient<M> extends WSHelper<M> {
+export class WSAssistantClient<M> extends WSAssistant<M> {
 	private ws: WebSocket | null;
 	private listeners: Record<string, ((e: any) => void)[]> = {};
 

@@ -1,9 +1,9 @@
 import { SelectSubType, ExcludeSubType } from "../base/internalTypings";
 
 import NodeWebSocket from "ws";
-import { WSEventType, WSHelper } from "ws-helper-base";
+import { WSEventType, WSAssistant } from "ws-assistant-base";
 
-export class WSHelperServer<M> extends WSHelper<M> {
+export class WSAssistantServer<M> extends WSAssistant<M> {
 	public get ws(): NodeWebSocket | null { return this._ws; };
 	private _ws: NodeWebSocket | null;
 
@@ -32,11 +32,11 @@ export class WSHelperServer<M> extends WSHelper<M> {
 	}
 }
 
-export class WSSHelperServer<M> extends WSHelper<M> {
+export class WSSAssistantServer<M> extends WSAssistant<M> {
 	public get wss(): NodeWebSocket.Server { return this._wss; };
 	private _wss: NodeWebSocket.Server;
-	private clients: Record<string, WSHelperServer<M>> = {};
-	private ID_KEY = "WSHelperServerId";
+	private clients: Record<string, WSAssistantServer<M>> = {};
+	private ID_KEY = "WSAssistantServerId";
 
 	constructor(port: number) {
 		super();
@@ -46,7 +46,7 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 			const id = req.headers["sec-websocket-key"] as string;
 			this.setWSId(ws, id);
 
-			const client = new WSHelperServer<M>(ws);
+			const client = new WSAssistantServer<M>(ws);
 			this.clients[id] = client;
 
 			client.addEventListener("close", () => delete this.clients[id]);
@@ -59,9 +59,9 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 		this.forEachClient(client => client.send(type, data));
 	}
 
-	public sendToAllExcept<T extends keyof SelectSubType<M, void>>(type: T, skip: WSHelperServer<M>[]): void;
-	public sendToAllExcept<T extends keyof ExcludeSubType<M, void>>(type: T, skip: WSHelperServer<M>[], data: M[T]): void;
-	public sendToAllExcept<T extends keyof M>(type: T, skip: WSHelperServer<M>[], data?: M[T]): void {
+	public sendToAllExcept<T extends keyof SelectSubType<M, void>>(type: T, skip: WSAssistantServer<M>[]): void;
+	public sendToAllExcept<T extends keyof ExcludeSubType<M, void>>(type: T, skip: WSAssistantServer<M>[], data: M[T]): void;
+	public sendToAllExcept<T extends keyof M>(type: T, skip: WSAssistantServer<M>[], data?: M[T]): void {
 		const skipIds = skip.reduce((map, client) => {
 			map[this.getWSId(client.ws as NodeWebSocket)] = true;
 			return map;
@@ -73,22 +73,22 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 	}
 
 	public send = () => {
-		throw new Error("send not supported in WSHelperServer, use sendToAll instead");
+		throw new Error("send not supported in WSAssistantServer, use sendToAll instead");
 	}
 
 	public close = (): void => {
 		this._wss.close();
 	};
 
-	public addEventListener = <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void): void => {
+	public addEventListener = <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
 		this.forEachClient(client => client.addEventListener(type, e => callback(client, e)));
 	}
 
-	public removeEventListener = <T extends WSEventType>(type: T, callback: (client: WSHelperServer<M>, e: WebSocketEventMap[T]) => void): void => {
+	public removeEventListener = <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
 		this.forEachClient(client => client.removeEventListener(type, e => callback(client, e)));
 	}
 
-	public onConnected = (callback: (client: WSHelperServer<M>, ip: string) => void): void => {
+	public onConnected = (callback: (client: WSAssistantServer<M>, ip: string) => void): void => {
 		this._wss.on("connection", (ws, req) => callback(this.clients[this.getWSId(ws)], req.socket.remoteAddress as string));
 	}
 
@@ -96,7 +96,7 @@ export class WSSHelperServer<M> extends WSHelper<M> {
 		this._wss.on("close", () => callback());
 	}
 
-	private forEachClient(callback: (client: WSHelperServer<M>, id: string) => void): void {
+	private forEachClient(callback: (client: WSAssistantServer<M>, id: string) => void): void {
 		Object.keys(this.clients).forEach(id => callback(this.clients[id], id));
 	}
 

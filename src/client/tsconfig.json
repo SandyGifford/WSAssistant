@@ -3,5 +3,5 @@
 		"outDir": "dist",
 	},
 	"extends": "../../tsconfig.json",
-	"files": [ "WSHelperClient.ts" ]
+	"files": [ "WSAssistantClient.ts" ]
 }

@@ -1,5 +1,5 @@
 {
-	"name": "ws-helper",
+	"name": "ws-assistant",
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
@@ -8,16 +8,16 @@
 	"author": "Sandy Gifford",
 	"repository": {
 	  "type": "git",
-	  "url": "git+https://github.com/SandyGifford/WSHelper.git"
+	  "url": "git+https://github.com/SandyGifford/WSAssistant.git"
 	},
 	"keywords": [
 	  "websocket",
 	  "ws"
 	],
 	"bugs": {
-	  "url": "https://github.com/SandyGifford/WSHelper/issues"
+	  "url": "https://github.com/SandyGifford/WSAssistant/issues"
 	},
-	"homepage": "https://github.com/SandyGifford/WSHelper#readme",
+	"homepage": "https://github.com/SandyGifford/WSAssistant#readme",
 	"license": "ISC",
 	"devDependencies": {
 		"typescript": "^4.4.4"

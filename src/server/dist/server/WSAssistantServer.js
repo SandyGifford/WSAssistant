@@ -7,15 +7,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "ws", "../base/WSHelper"], factory);
+        define(["require", "exports", "ws", "ws-assistant-base"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.WSSHelperServer = exports.WSHelperServer = void 0;
+    exports.WSSAssistantServer = exports.WSAssistantServer = void 0;
     const ws_1 = __importDefault(require("ws"));
-    const WSHelper_1 = require("../base/WSHelper");
-    class WSHelperServer extends WSHelper_1.WSHelper {
+    const ws_assistant_base_1 = require("ws-assistant-base");
+    class WSAssistantServer extends ws_assistant_base_1.WSAssistant {
         constructor(ws) {
             super();
             this.send = (type, data) => {
@@ -42,14 +42,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         get ws() { return this._ws; }
         ;
     }
-    exports.WSHelperServer = WSHelperServer;
-    class WSSHelperServer extends WSHelper_1.WSHelper {
+    exports.WSAssistantServer = WSAssistantServer;
+    class WSSAssistantServer extends ws_assistant_base_1.WSAssistant {
         constructor(port) {
             super();
             this.clients = {};
-            this.ID_KEY = "WSHelperServerId";
+            this.ID_KEY = "WSAssistantServerId";
             this.send = () => {
-                throw new Error("send not supported in WSHelperServer, use sendToAll instead");
+                throw new Error("send not supported in WSAssistantServer, use sendToAll instead");
             };
             this.close = () => {
                 this._wss.close();
@@ -70,7 +70,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             this._wss.on("connection", (ws, req) => {
                 const id = req.headers["sec-websocket-key"];
                 this.setWSId(ws, id);
-                const client = new WSHelperServer(ws);
+                const client = new WSAssistantServer(ws);
                 this.clients[id] = client;
                 client.addEventListener("close", () => delete this.clients[id]);
             });
@@ -100,6 +100,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return ws[this.ID_KEY];
         }
     }
-    exports.WSSHelperServer = WSSHelperServer;
+    exports.WSSAssistantServer = WSSAssistantServer;
 });
-//# sourceMappingURL=WSHelperServer.js.map
+//# sourceMappingURL=WSAssistantServer.js.map

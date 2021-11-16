@@ -10,7 +10,7 @@ export interface WSLike {
     }) => void): any;
 }
 export declare type WSEventType = "message" | "open" | "close" | "error";
-export declare abstract class WSHelper<M> {
+export declare abstract class WSAssistant<M> {
     abstract send<T extends keyof SelectSubType<M, void>>(type: T): void;
     abstract send<T extends keyof ExcludeSubType<M, void>>(type: T, data: M[T]): void;
     abstract send<T extends keyof M>(type: T, data?: M[T]): void;

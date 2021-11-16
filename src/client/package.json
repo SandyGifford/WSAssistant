@@ -1,16 +1,16 @@
 {
-  "name": "ws-helper-client",
+  "name": "ws-assistant-client",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/WSHelperClient.js",
-  "typings": "dist/WSHelperClient.d.ts",
+  "main": "dist/WSAssistantClient.js",
+  "typings": "dist/WSAssistantClient.d.ts",
   "devDependencies": {},
   "scripts": {
     "build": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SandyGifford/WSHelper.git"
+    "url": "git+https://github.com/SandyGifford/WSAssistant.git"
   },
   "keywords": [
 	"websocket",
@@ -20,7 +20,7 @@
   "author": "Sandy Gifford",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SandyGifford/WSHelper/issues"
+    "url": "https://github.com/SandyGifford/WSAssistant/issues"
   },
-  "homepage": "https://github.com/SandyGifford/WSHelper#readme"
+  "homepage": "https://github.com/SandyGifford/WSAssistant#readme"
 }

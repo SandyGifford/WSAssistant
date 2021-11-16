@@ -4,14 +4,14 @@
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "../base/WSHelper"], factory);
+        define(["require", "exports", "ws-assistant-base"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.WSHelperClient = void 0;
-    const WSHelper_1 = require("../base/WSHelper");
-    class WSHelperClient extends WSHelper_1.WSHelper {
+    exports.WSAssistantClient = void 0;
+    const ws_assistant_base_1 = require("ws-assistant-base");
+    class WSAssistantClient extends ws_assistant_base_1.WSAssistant {
         constructor(url, retryMS = 1000) {
             super();
             this.url = url;
@@ -71,6 +71,6 @@
             this.ws = new WebSocket(url);
         }
     }
-    exports.WSHelperClient = WSHelperClient;
+    exports.WSAssistantClient = WSAssistantClient;
 });
-//# sourceMappingURL=WSHelperClient.js.map
+//# sourceMappingURL=WSAssistantClient.js.map

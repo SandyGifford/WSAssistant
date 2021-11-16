@@ -1,27 +1,27 @@
 {
-  "name": "ws-helper-server",
+  "name": "ws-assistant-server",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/WSHelperServer.js",
-  "typings": "dist/WSHelperServer.d.ts",
+  "main": "dist/WSAssistantServer.js",
+  "typings": "dist/WSAssistantServer.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SandyGifford/WSHelper.git"
+    "url": "git+https://github.com/SandyGifford/WSAssistant.git"
   },
   "author": "Sandy Gifford",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SandyGifford/WSHelper/issues"
+    "url": "https://github.com/SandyGifford/WSAssistant/issues"
   },
   "keywords": [
 	"websocket",
 	"ws",
 	"server"
   ],
-  "homepage": "https://github.com/SandyGifford/WSHelper#readme",
+  "homepage": "https://github.com/SandyGifford/WSAssistant#readme",
   "peerDependencies": {
     "ws": "^8.2.3"
   },

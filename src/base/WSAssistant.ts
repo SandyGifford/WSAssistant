@@ -8,7 +8,7 @@ export interface WSLike {
 
 export type WSEventType = "message" | "open" | "close" | "error";
 
-export abstract class WSHelper<M> {
+export abstract class WSAssistant<M> {
 	public abstract send<T extends keyof SelectSubType<M, void>>(type: T): void;
 	public abstract send<T extends keyof ExcludeSubType<M, void>>(type: T, data: M[T]): void;
 	public abstract send<T extends keyof M>(type: T, data?: M[T]): void;
