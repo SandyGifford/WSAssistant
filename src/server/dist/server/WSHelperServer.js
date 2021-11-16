@@ -7,14 +7,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "ws", "./WSHelper"], factory);
+        define(["require", "exports", "ws", "../base/WSHelper"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.WSSHelperServer = exports.WSHelperServer = void 0;
     const ws_1 = __importDefault(require("ws"));
-    const WSHelper_1 = require("./WSHelper");
+    const WSHelper_1 = require("../base/WSHelper");
     class WSHelperServer extends WSHelper_1.WSHelper {
         constructor(ws) {
             super();

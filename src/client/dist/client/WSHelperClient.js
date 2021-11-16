@@ -4,13 +4,13 @@
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./WSHelper"], factory);
+        define(["require", "exports", "../base/WSHelper"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.WSHelperClient = void 0;
-    const WSHelper_1 = require("./WSHelper");
+    const WSHelper_1 = require("../base/WSHelper");
     class WSHelperClient extends WSHelper_1.WSHelper {
         constructor(url, retryMS = 1000) {
             super();

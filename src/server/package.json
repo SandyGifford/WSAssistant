@@ -2,9 +2,10 @@
   "name": "ws-helper-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/WSHelperServer.js",
+  "typings": "dist/WSHelperServer.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

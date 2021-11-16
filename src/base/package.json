@@ -2,10 +2,11 @@
   "name": "ws-helper-base",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/WSHelper.js",
+  "typings": "dist/WSHelper.d.ts",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

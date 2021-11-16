@@ -1,4 +1,4 @@
-import { WSEventType, WSHelper } from "../base/WSHelper";
+import { WSEventType, WSHelper } from "ws-helper-base";
 
 export class WSHelperClient<M> extends WSHelper<M> {
 	private ws: WebSocket | null;

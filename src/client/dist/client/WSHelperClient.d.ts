@@ -1,4 +1,4 @@
-import { WSEventType, WSHelper } from "./WSHelper";
+import { WSEventType, WSHelper } from "../base/WSHelper";
 export declare class WSHelperClient<M> extends WSHelper<M> {
     private url;
     private retryMS;

@@ -1,6 +1,6 @@
-import { SelectSubType, ExcludeSubType } from "./internalTypings";
+import { SelectSubType, ExcludeSubType } from "../base/internalTypings";
 import NodeWebSocket from "ws";
-import { WSEventType, WSHelper } from "./WSHelper";
+import { WSEventType, WSHelper } from "../base/WSHelper";
 export declare class WSHelperServer<M> extends WSHelper<M> {
     get ws(): NodeWebSocket | null;
     private _ws;
