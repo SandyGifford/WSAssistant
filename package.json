@@ -5,7 +5,19 @@
 	"scripts": {
 		"build": "npm run build --workspaces"
 	},
-	"author": "",
+	"author": "Sandy Gifford",
+	"repository": {
+	  "type": "git",
+	  "url": "git+https://github.com/SandyGifford/WSHelper.git"
+	},
+	"keywords": [
+	  "websocket",
+	  "ws"
+	],
+	"bugs": {
+	  "url": "https://github.com/SandyGifford/WSHelper/issues"
+	},
+	"homepage": "https://github.com/SandyGifford/WSHelper#readme",
 	"license": "ISC",
 	"devDependencies": {
 		"typescript": "^4.4.4"

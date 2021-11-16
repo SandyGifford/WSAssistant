@@ -12,7 +12,12 @@
     "type": "git",
     "url": "git+https://github.com/SandyGifford/WSHelper.git"
   },
-  "author": "",
+  "keywords": [
+	"websocket",
+	"ws",
+	"client"
+  ],
+  "author": "Sandy Gifford",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SandyGifford/WSHelper/issues"

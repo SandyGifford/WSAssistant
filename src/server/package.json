@@ -11,11 +11,16 @@
     "type": "git",
     "url": "git+https://github.com/SandyGifford/WSHelper.git"
   },
-  "author": "",
+  "author": "Sandy Gifford",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SandyGifford/WSHelper/issues"
   },
+  "keywords": [
+	"websocket",
+	"ws",
+	"server"
+  ],
   "homepage": "https://github.com/SandyGifford/WSHelper#readme",
   "peerDependencies": {
     "ws": "^8.2.3"
