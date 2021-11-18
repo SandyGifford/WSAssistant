@@ -1,10 +1,10 @@
 {
 	"name": "ws-assistant",
-	"version": "1.0.2",
 	"description": "",
 	"scripts": {
 		"clearDist": "npm run clearDist --workspaces",
-		"build": "npm run clearDist && npm run build --workspaces"
+		"build": "npm run clearDist && npm run build --workspaces",
+		"publish": "npm run build && npm publish -ws"
 	},
 	"author": "Sandy Gifford",
 	"repository": {
@@ -21,10 +21,9 @@
 	"homepage": "https://github.com/SandyGifford/WSAssistant#readme",
 	"license": "ISC",
 	"devDependencies": {
-		"typescript": "^4.4.4"
+		"typescript": "^4.5.2"
 	},
 	"workspaces": [
-		"src/base",
 		"src/client",
 		"src/server"
 	]

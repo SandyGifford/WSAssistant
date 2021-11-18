@@ -1,4 +1,4 @@
-import { WSEventType, WSAssistant } from "ws-assistant-base";
+import { WSEventType, WSAssistant } from "../shared/WSAssistant";
 
 export class WSAssistantClient<M> extends WSAssistant<M> {
 	private ws: WebSocket | null;

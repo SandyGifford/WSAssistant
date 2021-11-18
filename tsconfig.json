@@ -1,7 +1,6 @@
 {
+	"extends": "tsconfig.base.json",
 	"compilerOptions": {
-		"module": "umd" ,
-		"target": "ES2015",
 		"noUnusedLocals": true,
 		"noImplicitAny": false,
 		"noImplicitReturns": true,
@@ -19,10 +18,8 @@
 		"composite": true,
 		"rootDir": "./"
 	},
-	"exclude": [ "**/dist" ],
 	"references": [
-		{ "path": "src/base" },
-		{ "path": "src/server" },
-		{ "path": "src/client" }
+		{ "path": "./src/server" },
+		{ "path": "./src/client" }
 	]
 }

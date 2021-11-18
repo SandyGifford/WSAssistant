@@ -1,12 +1,7 @@
 {
+	"extends": "../shared/tsconfig.json",
+	"include": [ "**/*.ts", "../shared/**/*.ts" ],
 	"compilerOptions": {
 		"outDir": "dist",
 	},
-	"extends": "../../tsconfig.json",
-	"files": [ "WSAssistantClient.ts" ],
-	"exclude": [ "dist" ],
-	"include": [ "*.ts", "../base/*.ts" ],
-	"references": [
-		{ "path": "../base" },
-	]
 }

@@ -1,7 +1,7 @@
-import { SelectSubType, ExcludeSubType } from "../base/internalTypings";
+import { SelectSubType, ExcludeSubType } from "../shared/internalTypings";
+import { WSEventType, WSAssistant } from "../shared/WSAssistant";
 
 import NodeWebSocket from "ws";
-import { WSEventType, WSAssistant } from "ws-assistant-base";
 
 export class WSAssistantServer<M> extends WSAssistant<M> {
 	public get ws(): NodeWebSocket | null { return this._ws; };

@@ -1,13 +1,16 @@
 {
   "name": "ws-assistant-server",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
-  "main": "dist/src/server/WSAssistantServer.js",
-  "typings": "dist/src/server/WSAssistantServer.d.ts",
+  "main": "./dist/server/WSAssistantServer.js",
+  "types": "./dist/server/WSAssistantServer.d.ts",
   "scripts": {
     "build": "tsc",
 	"clearDist": "rm -rf dist"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SandyGifford/WSAssistant.git"
