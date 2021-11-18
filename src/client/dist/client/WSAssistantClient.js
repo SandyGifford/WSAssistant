@@ -40,22 +40,22 @@ class WSAssistantClient extends WSAssistant_1.WSAssistant {
             this.ws.close();
             this.ws = null;
         };
-        this.addEventListener = (type, callback) => {
+        this.addEventListener = (type, listener) => {
             if (!this.listeners[type])
                 this.listeners[type] = [];
             const listeners = this.listeners[type];
-            if (listeners.indexOf(callback) === -1)
-                listeners.push(callback);
-            this.ws?.addEventListener(type, callback);
+            if (listeners.indexOf(listener) === -1)
+                listeners.push(listener);
+            this.ws?.addEventListener(type, listener);
         };
-        this.removeEventListener = (type, callback) => {
+        this.removeEventListener = (type, listener) => {
             if (!this.listeners[type])
                 this.listeners[type] = [];
             const listeners = this.listeners[type];
-            const index = listeners.indexOf(callback);
+            const index = listeners.indexOf(listener);
             if (index !== -1)
                 listeners.splice(index, 1);
-            this.ws?.removeEventListener(type, callback);
+            this.ws?.removeEventListener(type, listener);
         };
         this.ws = new WebSocket(url);
     }

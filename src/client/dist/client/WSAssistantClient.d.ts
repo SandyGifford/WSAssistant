@@ -8,7 +8,7 @@ export declare class WSAssistantClient<M> extends WSAssistant<M> {
     send: <T extends keyof M>(type: T, data?: M[T] | undefined) => void;
     open: () => void;
     close: () => void;
-    addEventListener: <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void) => void;
-    removeEventListener: <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void) => void;
+    addEventListener: <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void) => void;
+    removeEventListener: <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void) => void;
 }
 //# sourceMappingURL=WSAssistantClient.d.ts.map

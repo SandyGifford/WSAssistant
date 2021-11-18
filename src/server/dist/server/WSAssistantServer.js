@@ -20,11 +20,11 @@ class WSAssistantServer extends WSAssistant_1.WSAssistant {
             this._ws.close();
             this._ws = null;
         };
-        this.addEventListener = (type, callback) => {
-            this._ws?.addEventListener(type, e => callback(e));
+        this.addEventListener = (type, listener) => {
+            this._ws?.addEventListener(type, e => listener(e));
         };
-        this.removeEventListener = (type, callback) => {
-            this._ws?.removeEventListener(type, e => callback(e));
+        this.removeEventListener = (type, listener) => {
+            this._ws?.removeEventListener(type, e => listener(e));
         };
         this._ws = ws;
     }
@@ -43,17 +43,17 @@ class WSSAssistantServer extends WSAssistant_1.WSAssistant {
         this.close = () => {
             this._wss.close();
         };
-        this.addEventListener = (type, callback) => {
-            this.forEachClient(client => client.addEventListener(type, e => callback(client, e)));
+        this.addEventListener = (type, listener) => {
+            this.forEachClient(client => client.addEventListener(type, e => listener(client, e)));
         };
-        this.removeEventListener = (type, callback) => {
-            this.forEachClient(client => client.removeEventListener(type, e => callback(client, e)));
+        this.removeEventListener = (type, listener) => {
+            this.forEachClient(client => client.removeEventListener(type, e => listener(client, e)));
         };
-        this.onConnected = (callback) => {
-            this._wss.on("connection", (ws, req) => callback(this.clients[this.getWSId(ws)], req.socket.remoteAddress));
+        this.onConnected = (listener) => {
+            this._wss.on("connection", (ws, req) => listener(this.clients[this.getWSId(ws)], req.socket.remoteAddress));
         };
-        this.onDisconnected = (callback) => {
-            this._wss.on("close", () => callback());
+        this.onDisconnected = (listener) => {
+            this._wss.on("close", () => listener());
         };
         this._wss = new ws_1.default.Server({ port });
         this._wss.on("connection", (ws, req) => {
@@ -79,8 +79,8 @@ class WSSAssistantServer extends WSAssistant_1.WSAssistant {
                 client.send(type, data);
         });
     }
-    forEachClient(callback) {
-        Object.keys(this.clients).forEach(id => callback(this.clients[id], id));
+    forEachClient(listener) {
+        Object.keys(this.clients).forEach(id => listener(this.clients[id], id));
     }
     setWSId(ws, id) {
         ws[this.ID_KEY] = id;

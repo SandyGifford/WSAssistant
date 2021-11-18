@@ -7,8 +7,8 @@ export declare class WSAssistantServer<M> extends WSAssistant<M> {
     constructor(ws: NodeWebSocket);
     send: <T extends keyof M>(type: T, data?: M[T] | undefined) => void;
     close: () => void;
-    addEventListener: <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void) => void;
-    removeEventListener: <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void) => void;
+    addEventListener: <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void) => void;
+    removeEventListener: <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void) => void;
 }
 export declare class WSSAssistantServer<M> extends WSAssistant<M> {
     get wss(): NodeWebSocket.Server;
@@ -22,10 +22,10 @@ export declare class WSSAssistantServer<M> extends WSAssistant<M> {
     sendToAllExcept<T extends keyof ExcludeSubType<M, void>>(type: T, skip: WSAssistantServer<M>[], data: M[T]): void;
     send: () => never;
     close: () => void;
-    addEventListener: <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
-    removeEventListener: <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
-    onConnected: (callback: (client: WSAssistantServer<M>, ip: string) => void) => void;
-    onDisconnected: (callback: () => void) => void;
+    addEventListener: <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
+    removeEventListener: <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
+    onConnected: (listener: (client: WSAssistantServer<M>, ip: string) => void) => void;
+    onDisconnected: (listener: () => void) => void;
     private forEachClient;
     private setWSId;
     private getWSId;

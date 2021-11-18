@@ -1,7 +1,7 @@
 {
 	"name": "ws-assistant",
 	"description": "",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"scripts": {
 		"clearDist": "npm run clearDist --workspaces",
 		"build": "npm run clearDist && npm run build --workspaces",
