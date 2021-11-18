@@ -23,12 +23,12 @@ export class WSAssistantServer<M> extends WSAssistant<M> {
 		this._ws = null;
 	};
 
-	public addEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
-		this._ws?.addEventListener(type as any, e => callback(e as any));
+	public addEventListener = <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void): void => {
+		this._ws?.addEventListener(type as any, e => listener(e as any));
 	}
 
-	public removeEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
-		this._ws?.removeEventListener(type as any, e => callback(e as any));
+	public removeEventListener = <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void): void => {
+		this._ws?.removeEventListener(type as any, e => listener(e as any));
 	}
 }
 
@@ -80,24 +80,24 @@ export class WSSAssistantServer<M> extends WSAssistant<M> {
 		this._wss.close();
 	};
 
-	public addEventListener = <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
-		this.forEachClient(client => client.addEventListener(type, e => callback(client, e)));
+	public addEventListener = <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
+		this.forEachClient(client => client.addEventListener(type, e => listener(client, e)));
 	}
 
-	public removeEventListener = <T extends WSEventType>(type: T, callback: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
-		this.forEachClient(client => client.removeEventListener(type, e => callback(client, e)));
+	public removeEventListener = <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {
+		this.forEachClient(client => client.removeEventListener(type, e => listener(client, e)));
 	}
 
-	public onConnected = (callback: (client: WSAssistantServer<M>, ip: string) => void): void => {
-		this._wss.on("connection", (ws, req) => callback(this.clients[this.getWSId(ws)], req.socket.remoteAddress as string));
+	public onConnected = (listener: (client: WSAssistantServer<M>, ip: string) => void): void => {
+		this._wss.on("connection", (ws, req) => listener(this.clients[this.getWSId(ws)], req.socket.remoteAddress as string));
 	}
 
-	public onDisconnected = (callback: () => void): void => {
-		this._wss.on("close", () => callback());
+	public onDisconnected = (listener: () => void): void => {
+		this._wss.on("close", () => listener());
 	}
 
-	private forEachClient(callback: (client: WSAssistantServer<M>, id: string) => void): void {
-		Object.keys(this.clients).forEach(id => callback(this.clients[id], id));
+	private forEachClient(listener: (client: WSAssistantServer<M>, id: string) => void): void {
+		Object.keys(this.clients).forEach(id => listener(this.clients[id], id));
 	}
 
 	private setWSId(ws: NodeWebSocket, id: string): void {

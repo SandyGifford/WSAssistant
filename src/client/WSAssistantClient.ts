@@ -44,18 +44,18 @@ export class WSAssistantClient<M> extends WSAssistant<M> {
 		this.ws = null;
 	};
 
-	public addEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
+	public addEventListener = <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void): void => {
 		if (!this.listeners[type]) this.listeners[type] = [];
 		const listeners = this.listeners[type];
-		if (listeners.indexOf(callback) === -1) listeners.push(callback);
-		this.ws?.addEventListener(type, callback);
+		if (listeners.indexOf(listener) === -1) listeners.push(listener);
+		this.ws?.addEventListener(type, listener);
 	}
 
-	public removeEventListener = <T extends WSEventType>(type: T, callback: (e: WebSocketEventMap[T]) => void): void => {
+	public removeEventListener = <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void): void => {
 		if (!this.listeners[type]) this.listeners[type] = [];
 		const listeners = this.listeners[type];
-		const index = listeners.indexOf(callback);
+		const index = listeners.indexOf(listener);
 		if (index !== -1) listeners.splice(index, 1);
-		this.ws?.removeEventListener(type, callback);
+		this.ws?.removeEventListener(type, listener);
 	}
 }
