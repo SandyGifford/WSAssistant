@@ -21,7 +21,7 @@ export declare class WSSAssistantServer<M> extends WSAssistant<M> {
     sendToAllExcept<T extends keyof SelectSubType<M, void>>(type: T, skip: WSAssistantServer<M>[]): void;
     sendToAllExcept<T extends keyof ExcludeSubType<M, void>>(type: T, skip: WSAssistantServer<M>[], data: M[T]): void;
     send: () => never;
-    close: () => void;
+    close: () => Promise<void>;
     addEventListener: <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
     removeEventListener: <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void) => void;
     onConnected: (listener: (client: WSAssistantServer<M>, ip: string) => void) => void;

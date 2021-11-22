@@ -99,8 +99,10 @@ Core class for WS Assistant Client.
 		- **`data`** (*optional*, `any`): The data to send to the server.
 	- **TypeScript**
 		- `type` and `data` are defined by the interface passed into the generic on `WSAssistantClient`.
-- **`open(): void`**: Opens connection the server.
-- **`close(): void`**: Closes connection the server.
+- **`async open(): Promise<void>`**: Opens connection the server.
+	- **returns**: A promise which completes upon successfully opening connection.
+- **`async close(): Promise<void>`**: Closes connection the server.
+	- **returns**: A promise which completes upon successfully closing connection.
 - **`addEventListener(type: string, listener(e: Event) => void): void`**: Listens to WebSocket events.  Effectively a wrapper to [`WebSocket.addEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#events) that also tracks added listeners so they can be re-added when reconnecting.
 	- **arguments**
 		- **`type`** (**required**, `string`): Event type.  See documentation for [WebSocket events](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#events).

@@ -76,8 +76,13 @@ export class WSSAssistantServer<M> extends WSAssistant<M> {
 		throw new Error("send not supported in WSAssistantServer, use sendToAll instead");
 	}
 
-	public close = (): void => {
-		this._wss.close();
+	public close = async (): Promise<void> => {
+		return new Promise((resolve, reject) => {
+			this._wss.close(error => {
+				if (error) reject(error);
+				else resolve();
+			});
+		});
 	};
 
 	public addEventListener = <T extends WSEventType>(type: T, listener: (client: WSAssistantServer<M>, e: WebSocketEventMap[T]) => void): void => {

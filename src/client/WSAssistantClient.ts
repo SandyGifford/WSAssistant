@@ -1,12 +1,11 @@
 import { WSEventType, WSAssistant } from "../shared/WSAssistant";
 
 export class WSAssistantClient<M> extends WSAssistant<M> {
-	private ws: WebSocket | null;
+	private ws: WebSocket | null = null;
 	private listeners: Record<string, ((e: any) => void)[]> = {};
 
 	constructor(private url: string, private retryMS = 1000) {
 		super();
-		this.ws = new WebSocket(url);
 	}
 
 	public send = <T extends keyof M>(type: T, data?: M[T]) => {
@@ -14,34 +13,54 @@ export class WSAssistantClient<M> extends WSAssistant<M> {
 		this.ws.send(JSON.stringify({ type, data }));
 	}
 
-	public open = (): void => {
-		if (this.ws) return;
-		this.ws = new WebSocket(this.url);
+	public open = async (): Promise<void> => {
+		if (this.ws) {
+			// TODO: consider throwing an error here instead of all of this business
+			const ws = this.ws;
+			if (ws.readyState === ws.OPEN) return Promise.resolve();
+			else return new Promise((resolve, reject) => {
+				const closeListener = () => reject("connection was closed before open completed");
+				const errorListener = e => reject(e);
+				const openListener = () => {
+					ws.removeEventListener("open", openListener);
+					ws.removeEventListener("close", closeListener);
+					ws.removeEventListener("error", errorListener);
+					resolve();
+				};
+				
+				ws.addEventListener("open", openListener);
+				ws.addEventListener("close", closeListener);
+				ws.addEventListener("error", errorListener);
+			});
+		}
+
+		const ws = this.ws = new WebSocket(this.url);
+
 		Object.keys(this.listeners).forEach(lType => {
 			this.listeners[lType].forEach(listener => this.ws?.addEventListener(lType, listener));
 		});
 
-		this.ws.addEventListener("open", () => {
-			console.log(`Socket to ${this.url} connected`);
-		});
-
-		this.ws.addEventListener("close", e => {
-			console.log(`Socket to ${this.url} is closed. Reconnect will be attempted in ${this.retryMS / 1000} second(s).`, e.reason);
+		ws.addEventListener("error", e => {
 			setTimeout(() => {
 				this.open();
 			}, this.retryMS);
 		});
 
-		this.ws.addEventListener("error", e => {
-			console.error(`Socket to ${this.url} encountered error: `, (e as any).message, "Closing socket");
-			this.close();
+		return new Promise(resolve => {
+			ws.addEventListener("open", () => resolve());
 		});
 	};
 
-	public close = (): void => {
-		if (!this.ws) return;
-		this.ws.close();
+	public close = async (): Promise<void> => {
+		if (!this.ws) return Promise.resolve();
+		const ws = this.ws;
 		this.ws = null;
+
+		ws.close();
+
+		return new Promise(resolve => {
+			ws.addEventListener("close", () => resolve());
+		});
 	};
 
 	public addEventListener = <T extends WSEventType>(type: T, listener: (e: WebSocketEventMap[T]) => void): void => {

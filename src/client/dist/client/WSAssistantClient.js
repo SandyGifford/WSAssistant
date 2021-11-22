@@ -7,38 +7,56 @@ class WSAssistantClient extends WSAssistant_1.WSAssistant {
         super();
         this.url = url;
         this.retryMS = retryMS;
+        this.ws = null;
         this.listeners = {};
         this.send = (type, data) => {
             if (!this.ws)
                 return;
             this.ws.send(JSON.stringify({ type, data }));
         };
-        this.open = () => {
-            if (this.ws)
-                return;
-            this.ws = new WebSocket(this.url);
+        this.open = async () => {
+            if (this.ws) {
+                // TODO: consider throwing an error here instead of all of this business
+                const ws = this.ws;
+                if (ws.readyState === ws.OPEN)
+                    return Promise.resolve();
+                else
+                    return new Promise((resolve, reject) => {
+                        const closeListener = () => reject("connection was closed before open completed");
+                        const errorListener = e => reject(e);
+                        const openListener = () => {
+                            ws.removeEventListener("open", openListener);
+                            ws.removeEventListener("close", closeListener);
+                            ws.removeEventListener("error", errorListener);
+                            resolve();
+                        };
+                        ws.addEventListener("open", openListener);
+                        ws.addEventListener("close", closeListener);
+                        ws.addEventListener("error", errorListener);
+                    });
+            }
+            const ws = this.ws = new WebSocket(this.url);
             Object.keys(this.listeners).forEach(lType => {
                 this.listeners[lType].forEach(listener => this.ws?.addEventListener(lType, listener));
             });
-            this.ws.addEventListener("open", () => {
-                console.log(`Socket to ${this.url} connected`);
-            });
-            this.ws.addEventListener("close", e => {
-                console.log(`Socket to ${this.url} is closed. Reconnect will be attempted in ${this.retryMS / 1000} second(s).`, e.reason);
+            ws.addEventListener("error", e => {
                 setTimeout(() => {
                     this.open();
                 }, this.retryMS);
             });
-            this.ws.addEventListener("error", e => {
-                console.error(`Socket to ${this.url} encountered error: `, e.message, "Closing socket");
-                this.close();
+            return new Promise(resolve => {
+                ws.addEventListener("open", () => resolve());
             });
         };
-        this.close = () => {
+        this.close = async () => {
             if (!this.ws)
-                return;
-            this.ws.close();
+                return Promise.resolve();
+            const ws = this.ws;
             this.ws = null;
+            ws.close();
+            return new Promise(resolve => {
+                ws.addEventListener("close", () => resolve());
+            });
         };
         this.addEventListener = (type, listener) => {
             if (!this.listeners[type])
@@ -57,7 +75,6 @@ class WSAssistantClient extends WSAssistant_1.WSAssistant {
                 listeners.splice(index, 1);
             this.ws?.removeEventListener(type, listener);
         };
-        this.ws = new WebSocket(url);
     }
 }
 exports.WSAssistantClient = WSAssistantClient;

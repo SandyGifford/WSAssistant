@@ -40,8 +40,15 @@ class WSSAssistantServer extends WSAssistant_1.WSAssistant {
         this.send = () => {
             throw new Error("send not supported in WSAssistantServer, use sendToAll instead");
         };
-        this.close = () => {
-            this._wss.close();
+        this.close = async () => {
+            return new Promise((resolve, reject) => {
+                this._wss.close(error => {
+                    if (error)
+                        reject(error);
+                    else
+                        resolve();
+                });
+            });
         };
         this.addEventListener = (type, listener) => {
             this.forEachClient(client => client.addEventListener(type, e => listener(client, e)));

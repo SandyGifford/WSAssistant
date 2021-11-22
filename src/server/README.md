@@ -125,7 +125,8 @@ Core class for WS Assistant Server.  Creates a web socket server.
 #### methods
 
 - **`send(type: string, data?: any): void`**: Send is not supported on `WSSAssistantServer`.  use `WSSAssistantServer.sendToAll` or `WSSAssistantServer.sendToAllExcept` instead.
-- **`close(): void`**: Closes connection to all clients.
+- **`async close(): Promise<void>`**: Closes connection to all clients.
+	- **returns**: A promise which completes upon successfully closing connections.
 - **`addEventListener(type: string, listener(e: Event) => void): void`**: Calls `addEventListener` on every connected client.
 	- **arguments**
 		- **`type`** (**required**, `string`): Event type.  See documentation for [ws events](https://github.com/websockets/ws/blob/master/doc/ws.md#websocketaddeventlistenertype-listener-options).
